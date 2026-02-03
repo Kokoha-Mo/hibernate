@@ -1,0 +1,24 @@
+package tw.lab.h1.service;
+
+import java.util.List;
+
+import tw.lab.h1.entity.Order;
+import tw.lab.h1.entity.OrderItem;
+
+public interface OrderService {
+	Long createOrder(String customer);
+	
+	Long createOrderWithItems(String customer,List<OrderItem> items);
+	
+	void changeCustomerName(Long orderId,String newName);
+	
+	void addItem(Long orderId,String pname,int qty,int price);
+	
+	void updateItemQty(Long orderId,Long itemId,int newQty);
+	
+	void removeItem(Long orderId,Long itemId);
+	
+	Order getOrderWithItems(Long orderId);
+	
+	void deleteOrder(Long orderId);
+}

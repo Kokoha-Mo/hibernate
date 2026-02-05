@@ -12,76 +12,80 @@ import tw.lab.h1.utils.HibernateUtil;
 public class SCDao {
 	public void save(Student student) {
 		Transaction transaction = null;
-		try(Session session = HibernateUtil.getSessionFactory().openSession()){
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			
+
 			session.persist(student);
-			
+
 			transaction.commit();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			System.out.println(e);
-			if(transaction != null) {
+			if (transaction != null) {
 				transaction.rollback();
 			}
 		}
 	}
-	
+
 	public void save(Course course) {
 		Transaction transaction = null;
-		try(Session session = HibernateUtil.getSessionFactory().openSession()){
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			
+
 			session.persist(course);
-			
+
 			transaction.commit();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			System.out.println(e);
-			if(transaction != null) {
+			if (transaction != null) {
 				transaction.rollback();
 			}
 		}
 	}
-	
-	public void update(Student student) {
+
+	public Student update(Student student) {
 		Transaction transaction = null;
-		try(Session session = HibernateUtil.getSessionFactory().openSession()){
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			
+
 			session.merge(student);
-			
+
 			transaction.commit();
-		}catch (Exception e) {
+			return getStudentById(student.getStudentId());
+		} catch (Exception e) {
 			System.out.println(e);
-			if(transaction != null) {
+			if (transaction != null) {
 				transaction.rollback();
 			}
 		}
+		return null;
 	}
-	
+
 	public Student getStudentById(Long sid) {
-		try(Session session = HibernateUtil.getSessionFactory().openSession()){
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			return session.get(Student.class, sid);
-			}catch (Exception e) {
-				System.out.println(e);
-			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		return null;
-		
+
 	}
+
 	public Course getCourseById(Long cid) {
-		try(Session session = HibernateUtil.getSessionFactory().openSession()){
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			return session.get(Course.class, cid);
-			}catch (Exception e) {
-				System.out.println(e);
-			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		return null;
-		
+
 	}
-	public List<Course> getAllCourse() {	
-		try(Session session = HibernateUtil.getSessionFactory().openSession()){
-			return session.createQuery("FROM Course",Course.class).getResultList();
-			}catch (Exception e) {
-				System.out.println(e);
-			}
+
+	public List<Course> getAllCourse() {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery("FROM Course", Course.class).getResultList();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		return null;
 	}
 }
